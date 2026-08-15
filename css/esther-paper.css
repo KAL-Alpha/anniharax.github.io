@@ -1,0 +1,658 @@
+/*
+ * Esther Inspired Paper — blog port (Hexo / bcxm theme)
+ * Adapted from the Typora theme "esther-inspired-paper"
+ * (Esther Design System by ESTHER不二, https://github.com/esthersjw/esther-design-system)
+ * License: CC BY-NC-SA 4.0 (non-commercial, attribution, share-alike)
+ *
+ * 仅作用于文章正文与页面正文容器 #article-container,
+ * 不触碰侧边栏、页头、页脚、首页卡片摘要 (.content) 等其他区域。
+ * 加载方式:themes/bcxm/_config.yml → inject.head
+ */
+
+/* ============ 设计变量(仅 #article-container 作用域,不外泄) ============ */
+#article-container {
+  --e-bg: #fefcf6;
+  --e-surface: #fffdf8;
+  --e-surface-strong: #ffffff;
+  --e-surface-soft: #faf6eb;
+  --e-surface-code: #f7f8fa;
+  --e-text: #1a1a2e;
+  --e-text-muted: #555568;
+  --e-text-faint: #85858f;
+  --e-heading: #17172a;
+  --e-primary: #2b7fd8;
+  --e-primary-soft: rgba(43, 127, 216, 0.10);
+  --e-accent: #f4d758;
+  --e-accent-soft: rgba(244, 215, 88, 0.28);
+  --e-danger: #e84a5f;
+  --e-danger-soft: rgba(232, 74, 95, 0.10);
+  --e-border: #e8e0cf;
+  --e-border-strong: #d8ccb5;
+  --e-shadow: rgba(62, 48, 22, 0.10);
+  --e-code-toolbar: #eef0f4;
+  --e-code-border: #d9dde5;
+  --e-code-text: #252832;
+  --e-code-muted: #727887;
+  --e-code-comment: #5f6675;
+  --e-code-keyword: #8a2d75;
+  --e-code-operator: #b4233a;
+  --e-code-string: #2f6f3e;
+  --e-code-number: #6346a5;
+  --e-code-variable: #252832;
+  --e-code-property: #006d77;
+  --e-code-tag: #a1283e;
+  --e-code-type: #2f6f3e;
+  --e-inline-bg: #f5efe1;
+  --e-inline-text: #b43c50;
+  --e-selection-bg: #f4d758;
+  --e-selection-text: #1a1a2e;
+  --e-serif: "Noto Serif SC", "Noto Serif CJK SC", "Source Han Serif SC", "Songti SC", STSong, "Times New Roman", serif;
+  --e-sans: "Noto Sans SC", "Noto Sans CJK SC", "Source Han Sans SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
+  --e-mono: "Fira Code", "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}
+
+/* 暗色模式:纸感调色板换为暖黑 */
+html[data-theme="dark"] #article-container {
+  --e-surface: #1a1915;
+  --e-surface-strong: #232119;
+  --e-surface-soft: #1f1e18;
+  --e-surface-code: #1c1b20;
+  --e-text: #c9c5bb;
+  --e-text-muted: #9a968c;
+  --e-text-faint: #78746a;
+  --e-heading: #ece7dc;
+  --e-primary: #6ba6e0;
+  --e-primary-soft: rgba(107, 166, 224, 0.14);
+  --e-accent: #f4d758;
+  --e-accent-soft: rgba(244, 215, 88, 0.16);
+  --e-danger: #ef6a7d;
+  --e-danger-soft: rgba(239, 106, 125, 0.16);
+  --e-border: #3a372c;
+  --e-border-strong: #4c483a;
+  --e-shadow: rgba(0, 0, 0, 0.4);
+  --e-code-toolbar: #232228;
+  --e-code-border: #333239;
+  --e-code-text: #d8d5e0;
+  --e-code-muted: #8f8c97;
+  --e-code-comment: #9096a4;
+  --e-code-keyword: #d096ca;
+  --e-code-operator: #e27686;
+  --e-code-string: #8fc29a;
+  --e-code-number: #b29ce2;
+  --e-code-variable: #d8d5e0;
+  --e-code-property: #6fc7d1;
+  --e-code-tag: #e1899c;
+  --e-code-type: #8fc29a;
+  --e-inline-bg: #2b2a24;
+  --e-inline-text: #e47c90;
+}
+
+/* ============ 基础排版 ============ */
+#article-container {
+  color: var(--e-text);
+  font-family: var(--e-sans);
+  font-size: 16px;
+  line-height: 1.82;
+  letter-spacing: 0.012em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#article-container ::selection {
+  color: var(--e-selection-text);
+  background: var(--e-selection-bg);
+}
+
+#article-container p,
+#article-container blockquote,
+#article-container ul,
+#article-container ol,
+#article-container dl,
+#article-container table,
+#article-container > pre {
+  margin: 1em 0;
+}
+
+#article-container strong {
+  color: var(--e-heading);
+  font-weight: 700;
+}
+
+#article-container em {
+  color: var(--e-text-muted);
+}
+
+#article-container mark {
+  margin: 0 0.08em;
+  padding: 0.02em 0.18em;
+  color: var(--e-heading);
+  background: linear-gradient(transparent 52%, var(--e-accent) 52%);
+}
+
+#article-container small {
+  color: var(--e-text-muted);
+}
+
+/* ============ 标题(衬线、编辑节奏) ============ */
+#article-container h1,
+#article-container h2,
+#article-container h3,
+#article-container h4,
+#article-container h5,
+#article-container h6 {
+  position: relative;
+  clear: both;
+  margin: 2.1em 0 0.72em;
+  color: var(--e-heading);
+  font-family: var(--e-serif);
+  font-weight: 800;
+  line-height: 1.35;
+  letter-spacing: -0.025em;
+}
+
+#article-container h1 {
+  margin-top: 0.55em;
+  font-size: clamp(2.15rem, 6vw, 3.15rem);
+  line-height: 1.18;
+  letter-spacing: -0.045em;
+}
+
+#article-container h1::after {
+  content: "";
+  display: block;
+  width: 3.2rem;
+  height: 0.42rem;
+  margin-top: 0.5rem;
+  border-radius: 999px 52% 999px 46%;
+  background: var(--e-accent);
+  transform: rotate(-1.5deg);
+}
+
+#article-container h2 {
+  padding-bottom: 0.42em;
+  border-bottom: 1px solid var(--e-border);
+  font-size: clamp(1.55rem, 4vw, 2rem);
+}
+
+#article-container h2::before {
+  content: "";
+  display: inline-block;
+  width: 0.48em;
+  height: 0.48em;
+  margin-right: 0.46em;
+  border-radius: 50%;
+  background: var(--e-primary);
+  box-shadow: 0.25em 0.22em 0 var(--e-accent);
+  vertical-align: 0.08em;
+}
+
+#article-container h3 {
+  font-size: 1.35rem;
+  color: var(--e-primary);
+}
+
+#article-container h4 {
+  font-size: 1.12rem;
+}
+
+#article-container h5 {
+  font-size: 0.98rem;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+#article-container h6 {
+  font-size: 0.88rem;
+  color: var(--e-text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+#article-container h1 code,
+#article-container h2 code,
+#article-container h3 code,
+#article-container h4 code,
+#article-container h5 code,
+#article-container h6 code {
+  font-size: 0.82em;
+}
+
+/* ============ 链接(排除空的 headerlink 锚点) ============ */
+#article-container a:not(.headerlink) {
+  color: var(--e-primary);
+  text-decoration-line: underline;
+  text-decoration-color: var(--e-accent);
+  text-decoration-thickness: 0.16em;
+  text-underline-offset: 0.16em;
+  transition: color 140ms ease, background-color 140ms ease;
+}
+
+#article-container a:not(.headerlink):hover {
+  color: var(--e-heading);
+  background: var(--e-accent-soft);
+  text-decoration-color: var(--e-accent);
+}
+
+/* ============ 行内代码 / kbd ============ */
+#article-container code,
+#article-container tt,
+#article-container samp {
+  margin: 0 0.08em;
+  padding: 0.16em 0.38em;
+  border: 1px solid var(--e-border);
+  border-radius: 6px;
+  color: var(--e-inline-text);
+  background: var(--e-inline-bg);
+  font-family: var(--e-mono);
+  font-size: 0.88em;
+  white-space: break-spaces;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* 代码块内部的 code 不套用行内样式 */
+#article-container pre code,
+#article-container figure.highlight code {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font-size: inherit;
+  font-family: var(--e-mono);
+  white-space: inherit;
+  overflow-wrap: normal;
+  word-break: normal;
+  -webkit-box-decoration-break: slice;
+  box-decoration-break: slice;
+}
+
+#article-container kbd {
+  display: inline-block;
+  padding: 0.08em 0.44em;
+  border: 1px solid var(--e-border-strong);
+  border-bottom-width: 3px;
+  border-radius: 6px;
+  color: var(--e-heading);
+  background: var(--e-surface-strong);
+  font-family: var(--e-mono);
+  font-size: 0.82em;
+  line-height: 1.45;
+  box-shadow: 0 1px 2px var(--e-shadow);
+}
+
+/* ============ 代码块(figure.highlight) ============ */
+/* 容器:与 Typora esther 的 .md-fences 完全一致,红绿灯/条带画在容器自身伪元素上,
+   不依赖 JS 注入的 .highlight-tools —— jQuery CDN 加载失败时窗口样式依然存在 */
+#article-container figure.highlight {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 3.25em 1.2em 1.25em; /* 顶部留出 macOS 标题栏空间 */
+  border: 1px solid var(--e-code-border);
+  border-radius: 15px;
+  color: var(--e-code-text);
+  background: var(--e-surface-code);
+  box-shadow: 0 12px 30px var(--e-shadow);
+  font-family: var(--e-mono);
+  font-size: 0.88rem;
+  line-height: 1.68;
+}
+
+/* 顶部 macOS 条带(Typora esther 同款渐变:工具栏色 0→2.35rem,边框色 2.35rem→2.4rem) */
+#article-container figure.highlight::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 0;
+  height: 2.4rem;
+  border-radius: 14px 14px 0 0;
+  background: linear-gradient(
+    to bottom,
+    var(--e-code-toolbar) 0 2.35rem,
+    var(--e-code-border) 2.35rem 2.4rem
+  );
+  pointer-events: none;
+}
+
+/* 红绿灯:与 Typora esther 完全一致(10px 圆点,#ff5f57/#febc2e/#28c840,间距 17px/34px) */
+#article-container figure.highlight::before {
+  content: "";
+  position: absolute;
+  top: 0.86rem;
+  left: 1.2rem;
+  z-index: 2;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #ff5f57;
+  box-shadow: 17px 0 0 #febc2e, 34px 0 0 #28c840;
+  pointer-events: none;
+}
+
+/* 工具栏(JS 注入时):浮在条带之上,背景交给 figure::after,只留文字按钮 */
+#article-container .highlight-tools {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: 2.4rem;
+  z-index: 1;
+  background: transparent;
+  color: var(--e-code-muted);
+}
+
+/* 禁用主题自带的工具栏圆点(与 figure::before 的红绿灯重复) */
+#article-container figure.highlight .highlight-tools::after {
+  content: none;
+}
+
+/* 语言标签:居中当作 macOS 窗口标题(小号、低调) */
+#article-container figure.highlight .highlight-tools .code-lang {
+  right: 0;
+  left: 0;
+  width: max-content;
+  margin: 0 auto;
+  font-size: 0.82em;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: none;
+}
+
+/* 复制/折叠按钮:低调灰,悬停主题蓝 */
+#article-container .highlight-tools .copy-button,
+#article-container .highlight-tools .expand {
+  color: var(--e-code-muted);
+}
+
+#article-container .highlight-tools .copy-button:hover,
+#article-container .highlight-tools .expand:hover {
+  color: var(--e-primary);
+}
+
+/* 长代码块底部的展开遮罩:跟随浅色代码块,不用主题的深色渐变 */
+#article-container .code-expand-btn {
+  background: linear-gradient(180deg, rgba(247, 248, 250, 0.6), rgba(247, 248, 250, 0.9));
+}
+
+#article-container .code-expand-btn i {
+  color: var(--e-code-muted);
+}
+
+/* 行号列:width:0 + nowrap 让列收缩到内容宽(table-layout:auto 下,
+   否则表格会按内容比例把剩余宽度摊给行号列,出现"数字列过宽") */
+#article-container figure.highlight table {
+  margin: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+#article-container figure.highlight th,
+#article-container figure.highlight td {
+  padding: 0;
+  border: 0;
+}
+
+#article-container figure.highlight td.gutter {
+  width: 0;
+  white-space: nowrap;
+  border-right: 1px solid var(--e-code-border);
+  background: transparent;
+}
+
+#article-container figure.highlight td.code {
+  width: 100%;
+}
+
+#article-container figure.highlight td.gutter pre {
+  padding-left: 1.2em;
+  padding-right: 0.5em;
+  color: var(--e-code-muted);
+}
+
+#article-container figure.highlight td.code pre {
+  padding-right: 1.2em;
+}
+
+#article-container figure.highlight pre {
+  margin: 0;
+  padding: 1em 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  color: var(--e-code-text);
+}
+
+/* 语法高亮色(原主题 if $highlight_enable 守卫失效,从未上色,这里补上) */
+#article-container figure.highlight pre .comment {
+  color: var(--e-code-comment);
+  font-style: italic;
+}
+
+#article-container figure.highlight pre .keyword {
+  color: var(--e-code-keyword);
+}
+
+#article-container figure.highlight pre .operator {
+  color: var(--e-code-operator);
+}
+
+#article-container figure.highlight pre .string,
+#article-container figure.highlight pre .regexp,
+#article-container figure.highlight pre .symbol {
+  color: var(--e-code-string);
+}
+
+#article-container figure.highlight pre .number,
+#article-container figure.highlight pre .literal {
+  color: var(--e-code-number);
+}
+
+#article-container figure.highlight pre .variable,
+#article-container figure.highlight pre .params {
+  color: var(--e-code-variable);
+}
+
+#article-container figure.highlight pre .property,
+#article-container figure.highlight pre .attribute,
+#article-container figure.highlight pre .attr,
+#article-container figure.highlight pre .builtin {
+  color: var(--e-code-property);
+}
+
+#article-container figure.highlight pre .tag,
+#article-container figure.highlight pre .meta {
+  color: var(--e-code-tag);
+}
+
+#article-container figure.highlight pre .type,
+#article-container figure.highlight pre .built_in {
+  color: var(--e-code-type);
+}
+
+#article-container figure.highlight pre .title,
+#article-container figure.highlight pre .function {
+  color: var(--e-code-property);
+}
+
+/* 裸 <pre>(无 wrap 兜底) */
+#article-container > pre {
+  position: relative;
+  margin: 1.5em 0;
+  padding: 1.25em 1.2em;
+  border: 1px solid var(--e-code-border);
+  border-radius: 15px;
+  color: var(--e-code-text);
+  background: var(--e-surface-code);
+  box-shadow: 0 12px 30px var(--e-shadow);
+  font-family: var(--e-mono);
+  font-size: 0.88rem;
+  line-height: 1.68;
+}
+
+/* ============ 引用卡片(排除 pullquote 浮动引用) ============ */
+#article-container blockquote:not(.pullquote) {
+  position: relative;
+  min-height: 2.3em;
+  margin: 1.7em 0;
+  padding: 1.55em 1.75em 1.45em 3.7em;
+  overflow: hidden;
+  border: 0;
+  border-radius: 18px;
+  color: var(--e-text-muted);
+  background: var(--e-surface-strong);
+  box-shadow: 0 10px 34px var(--e-shadow);
+}
+
+#article-container blockquote:not(.pullquote)::before {
+  content: "\201C";
+  position: absolute;
+  top: 0.02em;
+  left: 0.28em;
+  color: var(--e-accent);
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 4.6rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+#article-container blockquote p {
+  color: inherit;
+}
+
+#article-container blockquote > :first-child {
+  margin-top: 0;
+}
+
+#article-container blockquote > :last-child {
+  margin-bottom: 0;
+}
+
+#article-container blockquote blockquote {
+  margin: 1em 0 0;
+  box-shadow: none;
+  background: var(--e-surface-soft);
+}
+
+/* ============ 表格 ============ */
+#article-container table {
+  width: 100%;
+  border: 1px solid var(--e-border);
+  border-spacing: 0;
+  border-collapse: separate;
+  border-radius: 14px;
+  background: var(--e-surface);
+  box-shadow: 0 6px 22px var(--e-shadow);
+  word-break: normal;
+}
+
+#article-container thead {
+  background: var(--e-primary-soft);
+}
+
+#article-container th,
+#article-container td {
+  padding: 0.72em 0.9em;
+  border: 0;
+  border-right: 1px solid var(--e-border);
+  border-bottom: 1px solid var(--e-border);
+  text-align: left;
+}
+
+#article-container th {
+  color: var(--e-heading);
+  font-family: var(--e-serif);
+  font-weight: 800;
+}
+
+#article-container tr:last-child td {
+  border-bottom: 0;
+}
+
+#article-container th:last-child,
+#article-container td:last-child {
+  border-right: 0;
+}
+
+#article-container tbody tr:nth-child(even) {
+  background: var(--e-surface-soft);
+}
+
+#article-container tbody tr:hover {
+  background: var(--e-accent-soft);
+}
+
+/* ============ 列表 ============ */
+#article-container ul,
+#article-container ol {
+  padding-left: 1.65em;
+}
+
+#article-container li {
+  margin: 0.34em 0;
+  padding-left: 0.16em;
+}
+
+#article-container ul > li::marker {
+  color: var(--e-danger);
+  font-size: 0.88em;
+}
+
+#article-container ol > li::marker {
+  color: var(--e-primary);
+  font-family: var(--e-serif);
+  font-weight: 800;
+}
+
+#article-container li > ul,
+#article-container li > ol {
+  margin: 0.2em 0;
+}
+
+/* ============ 图片 ============ */
+#article-container img {
+  max-width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 12px 32px var(--e-shadow);
+}
+
+#article-container p > img:only-child {
+  display: block;
+  margin: 1.7em auto;
+}
+
+/* ============ 分割线 ============ */
+#article-container hr {
+  width: 42%;
+  height: 5px;
+  margin: 3.2rem auto;
+  border: 0;
+  border-radius: 50%;
+  background: var(--e-accent);
+  box-shadow: 14px 0 0 var(--e-primary), -14px 0 0 var(--e-danger);
+  opacity: 0.78;
+}
+
+/* ============ 暗色模式:恢复被主题暗色规则抹掉的阴影 ============ */
+html[data-theme="dark"] #article-container figure.highlight,
+html[data-theme="dark"] #article-container blockquote:not(.pullquote) {
+  box-shadow: 0 12px 30px var(--e-shadow);
+}
+
+/* ============ 友链页:恢复其卡片式设计(不被正文链接/图片样式污染) ============ */
+#article-container .flink-list-item a,
+#article-container .flink-list-item a:hover {
+  color: var(--font-color);
+  background: none;
+  text-decoration: none;
+}
+
+#article-container .flink img {
+  border-radius: 0;
+  box-shadow: none;
+}
