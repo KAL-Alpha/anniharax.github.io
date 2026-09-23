@@ -3,12 +3,28 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         anniharax的博客
     </title>
     
 <link rel="stylesheet" href="/css/style.css">
+
+    
+<style id="theme-style-vars">
+    :root {
+        --font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+        --bg-image: url("/image/bliss.jpeg");
+        --bg-color: #8ea7b8;
+        --bg-size: cover;
+        --bg-position: center;
+        --bg-repeat: no-repeat;
+        --bg-attachment: fixed;
+        --bg-overlay: transparent;
+    }
+</style>
+
 
     
         
@@ -31,48 +47,62 @@
             让我们期待明天会更好。
         </p>
     </header>
-    <nav class="button-bar">
-        <ul class="nav-links">
-            <li>
-                <a href="/" class="button link-home ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
-                        <span>Home</span>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/archives" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/links" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/win7_network.png" alt="links" class="icon">Links
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/gedan" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/win7_wmplayer.png" alt="playlist" class="icon">Playlist
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/about" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
-                    </span>
-                </a>
-            </li>
-        </ul>
+    
 
-    </nav>
+<nav class="button-bar">
+    <ul class="nav-links">
+        
+        <li>
+            <a href="/" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_messenger.jpg" alt="Home" class="icon">
+                    <span>Home</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_book_1.jpg" alt="Archives" class="icon">
+                    <span>Archives</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/links" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/win7_network.png" alt="Links" class="icon">
+                    <span>Links</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/gedan" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/win7_wmplayer.png" alt="Playlist" class="icon">
+                    <span>Playlist</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_pc_1.jpg" alt="About" class="icon">
+                    <span>About</span>
+                </span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+
 </div>
+
 
         <div class="button mobile-menu-btn" id="mobile-menu-btn">
             <span class="menu-icon ri-menu-fill"></span>
@@ -80,7 +110,8 @@
 
             <div class="main-layout">
                 <aside id="sidebar">
-                    <div class="widget avatar-widget">
+                    
+<div class="widget avatar-widget">
     <div class="avatar-bg">
         <a href="/">
             <img src="/image/avatar.jpg" class="profile-img">
@@ -108,6 +139,8 @@
         
     </div>
 </div>
+
+
 
 
 <div class="widget music-widget">
@@ -140,14 +173,144 @@
 </div>
 
 <script>
+    /* music.js 在没有 musicConfig 时会自行退出，关闭音乐播放器时不会报错 */
     var musicConfig = {
         autoplay: false,
         playlist: [{"title":"明天会更好","artist":"费玉清、蔡琴等...","cover":"/image/109951167402252837.jpg","url":"https://api.injahow.cn/meting/?server=netease&type=url&id=3384838065"}]
     };
 </script>
+
+
+                    
+
+<div class="widget mobile-nav-widget">
+    <div class="mobile-nav-title">导航</div>
+    <ul class="mobile-nav-list">
+        
+        <li>
+            <a href="/"
+               class="button mobile-nav-item"
+               data-nav-rule="home"
+               data-nav-path="/">
+                <img src="/image/icon/vista_messenger.jpg" alt="Home" class="icon">
+                <span class="mobile-nav-label">Home</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives"
+               class="button mobile-nav-item"
+               data-nav-rule="archive"
+               data-nav-path="/archives">
+                <img src="/image/icon/vista_book_1.jpg" alt="Archives" class="icon">
+                <span class="mobile-nav-label">Archives</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/links"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/links">
+                <img src="/image/icon/win7_network.png" alt="Links" class="icon">
+                <span class="mobile-nav-label">Links</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/gedan"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/gedan">
+                <img src="/image/icon/win7_wmplayer.png" alt="Playlist" class="icon">
+                <span class="mobile-nav-label">Playlist</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/about">
+                <img src="/image/icon/vista_pc_1.jpg" alt="About" class="icon">
+                <span class="mobile-nav-label">About</span>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+                    
+
+<div class="widget card info-widget">
+    <div class="widget-title">站点信息</div>
+    <ul class="info-list">
+        
+        <li class="info-item">
+            <span class="info-label">运行时间</span>
+            <span class="info-value info-running"
+                  data-running-start="2026-04-18T19:42:54+08:00"
+                  data-unit-day="天"
+                  data-unit-hour="小时"
+                  data-unit-minute="分"
+                  data-unit-second="秒">158 天 1 小时 30 分 45 秒</span>
+        </li>
+        
+        
+        <li class="info-item">
+            <span class="info-label">文章数</span>
+            <span class="info-value">5</span>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="widget card taxonomy-widget">
+    <div class="widget-title">文章分类</div>
+    
+    <ul class="taxonomy-list">
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link " href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">
+                <span class="taxonomy-name">技术分享</span>
+                
+                <span class="taxonomy-count">2</span>
+                
+            </a>
+        </li>
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link " href="/categories/%E6%95%A3%E6%96%87/">
+                <span class="taxonomy-name">散文</span>
+                
+                <span class="taxonomy-count">1</span>
+                
+            </a>
+        </li>
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link " href="/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E4%BA%AB/">
+                <span class="taxonomy-name">项目分享</span>
+                
+                <span class="taxonomy-count">2</span>
+                
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+
+
+
+
                 </aside>
                 <main id="pjax-container">
-                    <div class="card post-full">
+                    
+<div class="card post-full">
     <span class="post-title article-title">
         HelixShieldCipher发布信息
     </span>
@@ -171,9 +334,9 @@
 <h2 id="这是？"><a href="#这是？" class="headerlink" title="这是？"></a>这是？</h2><p>基于 RNA 密码子的 ASCII 字符加密库，支持 Rust 核心库、CLI 工具和 Web 服务。</p>
 <p>这个项目的GItHub地址是：<a target="_blank" rel="noopener" href="https://github.com/KAL-Alpha/HelixShieldCipher">HelixShieldCipher</a></p>
 <h2 id="功能特性"><a href="#功能特性" class="headerlink" title="功能特性"></a>功能特性</h2><h3 id="核心加密-解密"><a href="#核心加密-解密" class="headerlink" title="核心加密&#x2F;解密"></a>核心加密&#x2F;解密</h3><ul>
-<li><strong>字符集<!----></strong>：支持  ASCII 字符</li>
-<li><strong>密码子映射<!----></strong>：每个 ASCII 字符映射到一个唯一的 3 碱基 RNA 密码子（仅含 A&#x2F;U&#x2F;C&#x2F;G）</li>
-<li><strong>种子驱动偏移<!----></strong>：通过 <code>u64</code> 种子初始化 LCG 伪随机数生成器，对字符索引进行偏移后查表</li>
+<li><strong>字符集</strong>：支持  ASCII 字符</li>
+<li><strong>密码子映射</strong>：每个 ASCII 字符映射到一个唯一的 3 碱基 RNA 密码子（仅含 A&#x2F;U&#x2F;C&#x2F;G）</li>
+<li><strong>种子驱动偏移</strong>：通过 <code>u64</code> 种子初始化 LCG 伪随机数生成器，对字符索引进行偏移后查表</li>
 </ul>
 <h3 id="加密流程"><a href="#加密流程" class="headerlink" title="加密流程"></a>加密流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">明文 → 字符查索引 → (索引 + 伪随机偏移) mod 54 → 查密码子表 → 密文（RNA 碱基序列）</span><br></pre></td></tr></table></figure>
 
@@ -233,10 +396,10 @@
 <h2 id="算法介绍"><a href="#算法介绍" class="headerlink" title="算法介绍"></a>算法介绍</h2><h3 id="1-基于口令的种子派生"><a href="#1-基于口令的种子派生" class="headerlink" title="1. 基于口令的种子派生"></a>1. 基于口令的种子派生</h3><p>种子 $X$ 完全由口令 $P$ 的 SHA256 哈希值派生：</p>
 <p>$$X &#x3D; \text{int}(\text{SHA256}(P)[8:16])$$</p>
 <h3 id="2-类-Enigma-步进（步进值-B-）"><a href="#2-类-Enigma-步进（步进值-B-）" class="headerlink" title="2. 类 Enigma 步进（步进值 $B$）"></a>2. 类 Enigma 步进（步进值 $B$）</h3><p>密码子表按照步进值 $B$ 动态偏移，每加密一个字符生成新的 $B$ 值：</p>
-<p>$$B_i &#x3D; \text{LCG}(\text{state}_i) \bmod 54$$</p>
+<p>$$B&#95;i &#x3D; \text{LCG}(\text{state}&#95;i) \bmod 54$$</p>
 <p>使得同一明文字符在不同位置映射到不同密码子，有效抵抗频率分析。</p>
-<h3 id="3-配对方式偏移（偏移量-Y-）"><a href="#3-配对方式偏移（偏移量-Y-）" class="headerlink" title="3. 配对方式偏移（偏移量 $Y$）"></a>3. 配对方式偏移（偏移量 $Y$）</h3><p>$H’$ 的取模结果产生配对方式偏移 $1 \sim 2$ 位：</p>
-<p>$$Y &#x3D; (H’ \bmod 2) + 1$$</p>
+<h3 id="3-配对方式偏移（偏移量-Y-）"><a href="#3-配对方式偏移（偏移量-Y-）" class="headerlink" title="3. 配对方式偏移（偏移量 $Y$）"></a>3. 配对方式偏移（偏移量 $Y$）</h3><p>$H&#39;$ 的取模结果产生配对方式偏移 $1 \sim 2$ 位：</p>
+<p>$$Y &#x3D; (H&#39; \bmod 2) + 1$$</p>
 <h3 id="4-5’-3’-端混淆"><a href="#4-5’-3’-端混淆" class="headerlink" title="4. 5’&#x2F;3’ 端混淆"></a>4. 5’&#x2F;3’ 端混淆</h3><p>通过开关控制，启用后密文的 5’ 端起始点由口令派生，进一步增强混淆。</p>
 <h3 id="5-模板链"><a href="#5-模板链" class="headerlink" title="5. 模板链"></a>5. 模板链</h3><p>开启后生成模板链（非直接信息链），解密时需还原为信息链。必须同时开启 5’&#x2F;3’ 端混淆。</p>
 <h3 id="6-RNA-甲基化"><a href="#6-RNA-甲基化" class="headerlink" title="6. RNA 甲基化"></a>6. RNA 甲基化</h3><p>甲基化的基因密码子在解密时自动跳过。甲基化位置由口令派生，不体现在密码子计数值差异中。</p>
@@ -244,20 +407,57 @@
 
 <h2 id="许可"><a href="#许可" class="headerlink" title="许可"></a>许可</h2><p>GNU General Public License v3.0</p>
 
+
+        
+        <div class="post-footer">
+            <div class="post-footer-row">
+                <span class="post-footer-label">作者</span>
+                <span class="post-footer-value">anniharax</span>
+            </div>
+            <div class="post-footer-row">
+                <span class="post-footer-label">发布于</span>
+                <span class="post-footer-value">
+                    <time datetime="2026-08-25T12:09:32+08:00">2026-08-25 12:09:32 +08:00</time>
+                </span>
+            </div>
+            
+            
+            <div class="post-footer-row post-footer-license">
+                <span class="post-footer-label">版权</span>
+                <span class="post-footer-value">
+                    
+                        <a class="post-footer-license-link" href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed.zh" target="_blank" rel="noopener nofollow">CC BY-NC-SA 4.0</a>
+                    
+                    
+                        <span class="post-footer-license-text">本文采用 CC BY-NC-SA 4.0 许可协议，转载请注明出处。</span>
+                    
+                </span>
+            </div>
+            
+        </div>
+        
     </div>
 </div>
+
                 </main>
                 <div class="sidebar-mask" id="sidebar-mask"></div>
             </div>
             <!-- footer -->
-            <footer class="card">
+            
+<footer class="card">
     <div class="copyright">
         <p>Copyright © 2026
                 anniharax
         </p>
-        <p>Powered by Hexo</p>
+        <p>Powered by Hexo
+            <a class="footer-rss" href="/atom.xml" title="订阅本站"
+               target="_blank" rel="noopener">
+                <img class="footer-rss-icon" src="/img/rss.png" alt="订阅本站">
+            </a>
+        </p>
     </div>
 </footer>
+
     </div>
 
     <script src="/js/responsive.js"></script>
@@ -275,6 +475,27 @@
             })
         })
     </script>
+    
+    
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ["\\(", "\\)"]],
+                    displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                    processEscapes: true
+                },
+                options: {
+                    skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] // 忽略的代码块
+                }
+            };
+            // PJAX 切换页面后需要重新排版公式
+            document.addEventListener('pjax:complete', function () {
+                if (window.MathJax && MathJax.typesetPromise) {
+                    MathJax.typesetPromise().catch(function (err) { console.warn(err); });
+                }
+            });
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
     
 </body>
 

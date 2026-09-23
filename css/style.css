@@ -11,17 +11,43 @@
   var(--secondary-color) 50%,
   color-mix(in srgb, var(--secondary-color), black 10%) 51%,
   var(--secondary-color) 100%);
-  /* You can customize the background image here */
+  /* 以下变量由主题 _config.yml 的 background / font 段生成
+     （layout/_partial/theme-vars.ejs），此处给出未配置时的兜底值 */
+  --font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+  --code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+  /* You can customize the background here, or via theme _config.yml */
   --bg-image: url(/image/bliss.jpeg);
+  --bg-color: #8ea7b8;
+  --bg-size: cover;
+  --bg-position: center;
+  --bg-repeat: no-repeat;
+  --bg-attachment: fixed;
+  --bg-overlay: transparent;
 }
 
 body {
-  font-family: "Segoe UI", sans-serif;
+  font-family: var(--font-family);
   color: var(--black-main);
   margin: 0 auto;
+  background-color: var(--bg-color);
   background-image: var(--bg-image);
-  background-size: cover;
-  background-attachment: fixed;
+  background-size: var(--bg-size);
+  background-position: var(--bg-position);
+  background-repeat: var(--bg-repeat);
+  background-attachment: var(--bg-attachment);
+}
+
+/* 背景遮罩（主题 _config.yml 的 background.overlay，默认为 transparent） */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--bg-overlay);
+  pointer-events: none;
+  z-index: 0;
 }
 
 .container {
@@ -31,6 +57,8 @@ body {
   max-width: 960px;
   margin: auto;
   padding: 0 20px;
+  position: relative;
+  z-index: 1;
 }
 
 .card {
@@ -44,7 +72,14 @@ body {
   background: var(--aero-grad);
   box-shadow: inset 0 0 0 1px var(--white-main), 0 0 0 0.5px var(--black-main), 3px 3px 10px rgba(from var(--black-main) r g b/0.6);
   box-sizing: border-box;
-  overflow: hidden;
+  /* 标签数量/名称由主题 _config.yml 决定，超出宽度时可横向滑动而不是被裁掉 */
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.button-bar::-webkit-scrollbar {
+  display: none;
 }
 
 .button,
@@ -94,6 +129,13 @@ body {
   flex: 1;
   grid-template-columns: minmax(0, 1fr) minmax(0, 2.5fr);
   gap: 20px;
+}
+
+/* 侧栏比正文栏高时（友链、归档等正文较短的页面），栅格高度由侧栏决定，
+   侧栏最后一张卡片会紧贴页脚，这里补出与卡片之间一致的 20px 空隙。
+   移动端抽屉自带 padding，不受影响 */
+aside {
+  padding-bottom: 20px;
 }
 
 .mobile-menu-btn, .sidebar-mask {
@@ -255,8 +297,65 @@ nav {
   width: 24px;
 }
 
-.link-home {
-  border-left: 1px solid #333;
+/* 第一个标签补上左边框（其余标签只有右边框） */
+.nav-links li:first-child a {
+  border-left: 1px solid var(--black-main);
+}
+
+/* 导航
+   桌面端：.button-bar 顶栏标签（nav.ejs 的 mode='top'）
+   移动端：.mobile-nav-widget 侧边展开栏中的列表（mode='side'），
+          排列在音乐播放器下方；顶栏标签在移动端隐藏。
+   两者共用主题 _config.yml 的 menu.items，标签名与图标均可自定义 */
+.mobile-nav-widget {
+  display: none;
+}
+
+.mobile-nav-title {
+  padding: 6px 2px 10px;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main);
+}
+
+.mobile-nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mobile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  font-size: 15px;
+  line-height: 1.2;
+  color: var(--black-main);
+  text-decoration: none;
+  text-shadow: 0 1px 0 var(--white-main);
+}
+
+/* .button 的 ::after 高亮层是覆盖整块的，内容需要抬到其上 */
+.mobile-nav-item > * {
+  position: relative;
+  z-index: 2;
+}
+
+.mobile-nav-item .icon {
+  flex: 0 0 auto;
+  width: 22px;
+}
+
+.mobile-nav-label {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .post-list {
@@ -361,6 +460,68 @@ nav {
   font-size: 30px;
 }
 
+/* 文章页脚：作者 / 完整发布日期 / 版权声明
+   内容与开关见主题 _config.yml 的 post 段。
+   它位于 .post-content 内部，是正文白色底上的一张卡片：
+   自身不带外框和白色描边，只靠淡蓝底 + 一圈细描边与正文区分，不与文章割裂 */
+.post-footer {
+  position: relative;
+  margin-top: 26px;
+  padding: 12px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  line-height: 1.7;
+  color: #1b1b1b;
+  background-color: rgba(from var(--primary-color) r g b/0.07);
+  box-shadow: inset 0 0 0 1px rgba(from var(--primary-color) r g b/0.3), inset 0 0 0 2px rgba(from var(--white-main) r g b/0.6);
+}
+
+.post-footer-row {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+/* 标签做成和导航按钮同款的小色块，避免浅色背景上读不清 */
+.post-footer-label {
+  flex: 0 0 auto;
+  display: inline-block;
+  min-width: 4em;
+  padding: 1px 8px;
+  border-radius: 3px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--black-main);
+  background: var(--aero-grad);
+  box-shadow: inset 0 0 0 1px var(--white-main), 0 0 0 0.5px var(--black-main);
+  text-shadow: 0 1px 0 var(--white-main);
+}
+
+.post-footer-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  color: #1b1b1b;
+  overflow-wrap: break-word;
+}
+
+/* 选择器要盖过 _markdown.scss 里作用于 .post-content a 的通用链接样式 */
+.post-footer .post-footer-license-link {
+  color: color-mix(in srgb, var(--primary-color), black 15%);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.post-footer .post-footer-license-link:hover {
+  border-bottom-color: currentColor;
+}
+
+.post-footer-license-text {
+  display: inline-block;
+  margin-left: 4px;
+  color: #333;
+}
+
 .avatar-widget {
   position: sticky;
   z-index: 4;
@@ -432,16 +593,23 @@ nav {
   padding: 10px;
 }
 
+/* 与 .music-widget 同理：不给 z-index 时，DOM 靠后的卡片滚动经过会盖住头像卡片。
+   头像本身是 z-index:4，仍在它之上 */
 .profile-widget {
   position: relative;
+  z-index: 3;
   margin-top: -90px;
   text-shadow: 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main);
   text-align: center;
 }
 
+/* 播放器与顶栏一样浮在最上层（同一个 z-index）。
+   侧栏其余卡片带 backdrop-filter，各自会形成层叠上下文（等价于 z-index:0），
+   不写 z-index 时 DOM 靠后的卡片在滚动经过时会盖住这个吸顶的播放器 */
 .music-widget {
   position: sticky;
   top: 140px;
+  z-index: 3;
   background: var(--white-main);
   box-sizing: border-box;
   box-shadow: inset 0 0 30px color-mix(in srgb, var(--primary-color), white 50%), 0 0 0 0.5px var(--black-main), 3px 3px 10px rgba(from var(--black-main) r g b/0.6);
@@ -599,6 +767,122 @@ nav {
   border-radius: inherit;
 }
 
+/* 侧边栏附加组件（layout/_partial/site-widgets.ejs）
+   站点信息（运行时间 / 文章数）、文章分类菜单、文章标签菜单 */
+.info-widget,
+.taxonomy-widget {
+  padding: 12px 14px;
+  border-radius: 3px;
+}
+
+.widget-title {
+  margin-bottom: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-shadow: 0 1px 0 var(--white-main);
+}
+
+.info-list,
+.taxonomy-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+/* 卡片本身是半透明玻璃质感，壁纸会透上来，
+   蓝色标签直接压在壁纸上对比度只有 1.75:1（截图实测，几乎看不清）。
+   这里垫一层接近正文白底的内嵌面板，让标签和数值都有稳定的底色；
+   它与播放器的 .info-bg、分类标签的色块是同一套「玻璃面板」思路 */
+.info-list {
+  padding: 8px 10px;
+  border-radius: 3px;
+  background-color: rgba(from var(--white-main) r g b/0.8);
+  box-shadow: inset 0 0 0 1px var(--white-main), inset 0 0 0 2px rgba(from var(--primary-color) r g b/0.3);
+}
+
+.info-item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* 保留主题的蓝色点缀，但压深一档：
+   配合上面的浅色面板，实测对比度 5.52:1，达到 WCAG AA 对正文的 4.5:1 要求 */
+.info-label {
+  flex: 0 0 auto;
+  color: color-mix(in srgb, var(--primary-color), black 28%);
+  font-weight: 700;
+  text-shadow: 0 1px 0 var(--white-main);
+}
+
+.info-value {
+  flex: 1 1 auto;
+  min-width: 0;
+  text-align: right;
+  color: #1b1b1b;
+  overflow-wrap: break-word;
+}
+
+.taxonomy-item {
+  line-height: 1.4;
+}
+
+.taxonomy-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 4px 8px;
+  border-radius: 3px;
+  font-size: 13px;
+  color: var(--black-main);
+  text-decoration: none;
+  background: var(--aero-grad);
+  box-shadow: inset 0 0 0 1px var(--white-main), 0 0 0 0.5px var(--black-main);
+  text-shadow: 0 1px 0 var(--white-main);
+  transition: filter 0.15s ease;
+}
+
+.taxonomy-link:hover,
+.taxonomy-link.active {
+  filter: brightness(1.06) saturate(1.3);
+}
+
+.taxonomy-link.active {
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.35), 0 0 0 0.5px var(--black-main);
+}
+
+.taxonomy-name {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.taxonomy-count {
+  flex: 0 0 auto;
+  min-width: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  font-size: 12px;
+  text-align: center;
+  color: var(--white-main);
+  background: var(--primary-color);
+  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.taxonomy-empty {
+  font-size: 13px;
+  color: #666;
+}
+
 .year-group {
   padding: 10px;
   border-radius: 3px;
@@ -700,6 +984,28 @@ footer {
   align-items: center;
   text-align: center;
   text-shadow: 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main), 0 0 10px var(--white-main);
+}
+
+/* RSS 订阅图标（主题 source/img/rss.png，Frutiger Aero 风格） */
+.footer-rss {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  vertical-align: middle;
+  border-radius: 4px;
+  transition: transform 0.15s ease, filter 0.15s ease;
+}
+
+.footer-rss:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08) saturate(1.2);
+}
+
+.footer-rss-icon {
+  display: block;
+  width: 22px;
+  height: 22px;
 }
 
 .post-content h1,
@@ -809,7 +1115,7 @@ footer {
   color: var(--primary-color);
   padding: 0.2em 0.4em;
   border-radius: 3px;
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: var(--code-font-family);
   font-size: 85%;
 }
 
@@ -821,7 +1127,7 @@ footer {
   border-radius: 3px;
   overflow-x: auto;
   line-height: 1.45;
-  font-family: Consolas, monospace;
+  font-family: var(--code-font-family);
   font-size: 14px;
 }
 
@@ -843,16 +1149,18 @@ footer {
   border-right: 1px solid #eee;
 }
 
-.markdown-body .mjx-chtml {
+/* MathJax v3 输出 */
+.markdown-body .mjx-chtml,
+.post-content mjx-container {
   outline: 0;
   max-width: 100%;
   overflow-x: auto;
   overflow-y: hidden;
 }
 
-/* 导航已有 5 个标签（约 554px），容器在 1024px 以下开始收缩，
-   而 nav 的 360px 左偏移不变，标签会被挤出容器、被 header 的 overflow:hidden 裁掉。
-   所以提前取消这个偏移，让标签居中排布 */
+/* 顶栏标签数量/名称现在由主题 _config.yml 的 menu.items 决定，
+   标签变多时容器会先收缩、标签被挤出。提前取消 nav 的 360px 左偏移，
+   并允许 .button-bar 横向滑动（见 _main.scss），标签不再被裁掉 */
 @media screen and (max-width: 1024px) {
   nav {
     margin-left: 0;
@@ -863,22 +1171,27 @@ footer {
   * {
     -webkit-tap-highlight-color: transparent;
   }
+  /* iOS 上 background-attachment: fixed 会导致背景不显示，改为随页面滚动 */
+  body {
+    background-attachment: scroll;
+  }
   .main-layout {
     display: block;
   }
   header {
     border-radius: 0;
   }
-  nav {
-    margin-left: 0;
-    left: 0;
+  /* 顶栏标签已整合进侧边展开栏（.mobile-nav-widget），不再显示 */
+  .header .button-bar {
+    display: none;
   }
-  .nav-links li a {
-    padding: 0 10px;
+  .mobile-nav-widget {
+    display: block;
+    margin-top: 20px;
   }
   .mobile-menu-btn {
     position: fixed;
-    top: 100px;
+    top: 90px;
     left: 0;
     z-index: 10;
     display: flex;
@@ -904,17 +1217,36 @@ footer {
     left: 0;
     width: 260px;
     height: 100vh;
+    background-color: var(--bg-color);
     background-image: var(--bg-image);
-    background-size: cover;
+    background-size: var(--bg-size);
+    background-position: var(--bg-position);
+    background-repeat: var(--bg-repeat);
     z-index: 100;
     padding: 20px;
     overflow-y: auto;
+    overscroll-behavior: contain;
     box-shadow: 2px 0 8px rgba(0, 0, 0, 0.15);
     transform: translateX(-100%);
     transition: transform 0.3s ease-in-out;
   }
   aside.open {
     transform: translateX(0);
+  }
+  /* 抽屉里是纵向滚动的列表，头像与播放器不再吸附，负外边距也一并取消 */
+  .avatar-widget,
+  .music-widget {
+    position: static;
+  }
+  .avatar-widget {
+    margin-top: 0;
+  }
+  .avatar-bg {
+    margin-top: 0;
+    margin-left: 0;
+  }
+  .profile-widget {
+    margin-top: 10px;
   }
   .sidebar-mask {
     display: block;
@@ -941,15 +1273,13 @@ footer {
     width: 100%;
   }
 }
-/* 手机宽度下（约 560px 以下）5 个标签一行放不下，改为可横向滑动，
-   否则最后一个标签会溢出并被裁掉 */
+/* 窄屏下文章页脚的「标签 / 内容」改为上下排列 */
 @media screen and (max-width: 560px) {
-  nav {
-    justify-content: flex-start;
-    overflow-x: auto;
-    scrollbar-width: none;
+  .post-footer-row {
+    flex-direction: column;
+    gap: 0;
   }
-  nav::-webkit-scrollbar {
-    display: none;
+  .post-footer-label {
+    min-width: 0;
   }
 }

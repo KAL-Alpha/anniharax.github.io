@@ -3,12 +3,28 @@
 
 <head>
     <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>
         anniharax的博客
     </title>
     
 <link rel="stylesheet" href="/css/style.css">
+
+    
+<style id="theme-style-vars">
+    :root {
+        --font-family: "Segoe UI", "Microsoft YaHei", "PingFang SC", "Hiragino Sans GB", sans-serif;
+        --code-font-family: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, "Courier New", monospace;
+        --bg-image: url("/image/bliss.jpeg");
+        --bg-color: #8ea7b8;
+        --bg-size: cover;
+        --bg-position: center;
+        --bg-repeat: no-repeat;
+        --bg-attachment: fixed;
+        --bg-overlay: transparent;
+    }
+</style>
+
 
     
         
@@ -31,48 +47,62 @@
             让我们期待明天会更好。
         </p>
     </header>
-    <nav class="button-bar">
-        <ul class="nav-links">
-            <li>
-                <a href="/" class="button link-home ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_messenger.jpg" alt="home" class="icon">
-                        <span>Home</span>
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/archives" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_book_1.jpg" alt="posts" class="icon">Archives    
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/links" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/win7_network.png" alt="links" class="icon">Links
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/gedan" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/win7_wmplayer.png" alt="playlist" class="icon">Playlist
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="/about" class="button ">
-                    <span class="nav-text">
-                        <img src="/image/icon/vista_pc_1.jpg" alt="about" class="icon">About
-                    </span>
-                </a>
-            </li>
-        </ul>
+    
 
-    </nav>
+<nav class="button-bar">
+    <ul class="nav-links">
+        
+        <li>
+            <a href="/" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_messenger.jpg" alt="Home" class="icon">
+                    <span>Home</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_book_1.jpg" alt="Archives" class="icon">
+                    <span>Archives</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/links" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/win7_network.png" alt="Links" class="icon">
+                    <span>Links</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/gedan" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/win7_wmplayer.png" alt="Playlist" class="icon">
+                    <span>Playlist</span>
+                </span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about" class="button">
+                <span class="nav-text">
+                    <img src="/image/icon/vista_pc_1.jpg" alt="About" class="icon">
+                    <span>About</span>
+                </span>
+            </a>
+        </li>
+        
+    </ul>
+</nav>
+
+
 </div>
+
 
         <div class="button mobile-menu-btn" id="mobile-menu-btn">
             <span class="menu-icon ri-menu-fill"></span>
@@ -80,7 +110,8 @@
 
             <div class="main-layout">
                 <aside id="sidebar">
-                    <div class="widget avatar-widget">
+                    
+<div class="widget avatar-widget">
     <div class="avatar-bg">
         <a href="/">
             <img src="/image/avatar.jpg" class="profile-img">
@@ -108,6 +139,8 @@
         
     </div>
 </div>
+
+
 
 
 <div class="widget music-widget">
@@ -140,11 +173,140 @@
 </div>
 
 <script>
+    /* music.js 在没有 musicConfig 时会自行退出，关闭音乐播放器时不会报错 */
     var musicConfig = {
         autoplay: false,
         playlist: [{"title":"明天会更好","artist":"费玉清、蔡琴等...","cover":"/image/109951167402252837.jpg","url":"https://api.injahow.cn/meting/?server=netease&type=url&id=3384838065"}]
     };
 </script>
+
+
+                    
+
+<div class="widget mobile-nav-widget">
+    <div class="mobile-nav-title">导航</div>
+    <ul class="mobile-nav-list">
+        
+        <li>
+            <a href="/"
+               class="button mobile-nav-item"
+               data-nav-rule="home"
+               data-nav-path="/">
+                <img src="/image/icon/vista_messenger.jpg" alt="Home" class="icon">
+                <span class="mobile-nav-label">Home</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/archives"
+               class="button mobile-nav-item"
+               data-nav-rule="archive"
+               data-nav-path="/archives">
+                <img src="/image/icon/vista_book_1.jpg" alt="Archives" class="icon">
+                <span class="mobile-nav-label">Archives</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/links"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/links">
+                <img src="/image/icon/win7_network.png" alt="Links" class="icon">
+                <span class="mobile-nav-label">Links</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/gedan"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/gedan">
+                <img src="/image/icon/win7_wmplayer.png" alt="Playlist" class="icon">
+                <span class="mobile-nav-label">Playlist</span>
+            </a>
+        </li>
+        
+        <li>
+            <a href="/about"
+               class="button mobile-nav-item"
+               data-nav-rule="current"
+               data-nav-path="/about">
+                <img src="/image/icon/vista_pc_1.jpg" alt="About" class="icon">
+                <span class="mobile-nav-label">About</span>
+            </a>
+        </li>
+        
+    </ul>
+</div>
+
+
+                    
+
+<div class="widget card info-widget">
+    <div class="widget-title">站点信息</div>
+    <ul class="info-list">
+        
+        <li class="info-item">
+            <span class="info-label">运行时间</span>
+            <span class="info-value info-running"
+                  data-running-start="2026-04-18T19:42:54+08:00"
+                  data-unit-day="天"
+                  data-unit-hour="小时"
+                  data-unit-minute="分"
+                  data-unit-second="秒">158 天 1 小时 30 分 45 秒</span>
+        </li>
+        
+        
+        <li class="info-item">
+            <span class="info-label">文章数</span>
+            <span class="info-value">5</span>
+        </li>
+        
+    </ul>
+</div>
+
+
+
+<div class="widget card taxonomy-widget">
+    <div class="widget-title">文章分类</div>
+    
+    <ul class="taxonomy-list">
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link " href="/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">
+                <span class="taxonomy-name">技术分享</span>
+                
+                <span class="taxonomy-count">2</span>
+                
+            </a>
+        </li>
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link " href="/categories/%E6%95%A3%E6%96%87/">
+                <span class="taxonomy-name">散文</span>
+                
+                <span class="taxonomy-count">1</span>
+                
+            </a>
+        </li>
+        
+        <li class="taxonomy-item">
+            <a class="taxonomy-link active" href="/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E4%BA%AB/">
+                <span class="taxonomy-name">项目分享</span>
+                
+                <span class="taxonomy-count">2</span>
+                
+            </a>
+        </li>
+        
+    </ul>
+    
+</div>
+
+
+
+
                 </aside>
                 <main id="pjax-container">
                     <section class="archive-container">
@@ -193,14 +355,21 @@
                 <div class="sidebar-mask" id="sidebar-mask"></div>
             </div>
             <!-- footer -->
-            <footer class="card">
+            
+<footer class="card">
     <div class="copyright">
         <p>Copyright © 2026
                 anniharax
         </p>
-        <p>Powered by Hexo</p>
+        <p>Powered by Hexo
+            <a class="footer-rss" href="/atom.xml" title="订阅本站"
+               target="_blank" rel="noopener">
+                <img class="footer-rss-icon" src="/img/rss.png" alt="订阅本站">
+            </a>
+        </p>
     </div>
 </footer>
+
     </div>
 
     <script src="/js/responsive.js"></script>
@@ -218,6 +387,7 @@
             })
         })
     </script>
+    
     
 </body>
 
