@@ -254,7 +254,7 @@
                   data-unit-day="天"
                   data-unit-hour="小时"
                   data-unit-minute="分"
-                  data-unit-second="秒">158 天 1 小时 30 分 45 秒</span>
+                  data-unit-second="秒">160 天 5 小时 5 分 29 秒</span>
         </li>
         
         
@@ -376,7 +376,7 @@ function copyLink(e, path) {
 }
 </script>
 
-<h2 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h2><p>电子邮箱地址：<a href="mailto:&#97;&#x6e;&#110;&#105;&#104;&#x61;&#114;&#x61;&#x78;&#64;&#97;&#110;&#x6e;&#x69;&#x68;&#x61;&#114;&#x61;&#120;&#46;&#x74;&#111;&#112;">anniharax@anniharax.top</a></p>
+<h2 id="联系我"><a href="#联系我" class="headerlink" title="联系我"></a>联系我</h2><p>电子邮箱地址：<a href="mailto:&#x61;&#110;&#x6e;&#105;&#x68;&#97;&#114;&#x61;&#x78;&#x40;&#97;&#110;&#110;&#x69;&#104;&#97;&#x72;&#97;&#x78;&#46;&#116;&#x6f;&#112;">anniharax@anniharax.top</a></p>
 <h3 id="你找我？"><a href="#你找我？" class="headerlink" title="你找我？"></a>你找我？</h3><p>不好意思，请老老实实发邮件。</p>
 <p>回信后你将能够获取到我的真实邮箱地址～</p>
 
@@ -408,6 +408,7 @@ function copyLink(e, path) {
 
     <script src="/js/responsive.js"></script>
     <script src="/js/music.js"></script>
+    <script src="/js/pjax-transition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -421,6 +422,53 @@ function copyLink(e, path) {
             })
         })
     </script>
+    
+    
+        <script>
+            /* MathJax 的按需加载：
+               首屏由下面 loadMath 的 script 标签引入；PJAX 切换页面时只替换
+               #pjax-container 里的内容，CDN 脚本不会跟着重新执行，
+               所以在 pjax:complete 时按新正文判断是「重新排版」还是「动态引入」，
+               否则从别的页面切到含公式的文章会一直显示 $…$ 原文 */
+            window.themeMath = (function () {
+                var CDN = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+                var MATH_RE = /\$\$[\s\S]+?\$\$|\$[^\s$][\s\S]*?[^\s$]\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]/;
+
+                function config() {
+                    return {
+                        tex: {
+                            inlineMath: [['$', '$'], ["\\(", "\\)"]],
+                            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                            processEscapes: true
+                        },
+                        options: {
+                            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] // 忽略的代码块
+                        }
+                    };
+                }
+
+                function typeset() {
+                    var container = document.getElementById('pjax-container') || document.body;
+                    if (!MATH_RE.test(container.textContent || '')) return;
+                    if (container.querySelector('[data-mathjax="off"]')) return; // front-matter 里关掉了
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise().catch(function (err) { console.warn(err); });
+                        return;
+                    }
+                    if (window.__mathjaxLoading) return;
+                    window.__mathjaxLoading = true;
+                    window.MathJax = config();
+                    var script = document.createElement('script');
+                    script.src = CDN;
+                    script.async = true;
+                    script.id = 'MathJax-script';
+                    document.head.appendChild(script);
+                }
+
+                return { config: config, typeset: typeset };
+            })();
+            document.addEventListener('pjax:complete', function () { window.themeMath.typeset(); });
+        </script>
     
     
 </body>

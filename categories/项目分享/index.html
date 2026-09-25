@@ -254,7 +254,7 @@
                   data-unit-day="天"
                   data-unit-hour="小时"
                   data-unit-minute="分"
-                  data-unit-second="秒">158 天 1 小时 30 分 45 秒</span>
+                  data-unit-second="秒">160 天 5 小时 5 分 29 秒</span>
         </li>
         
         
@@ -374,6 +374,7 @@
 
     <script src="/js/responsive.js"></script>
     <script src="/js/music.js"></script>
+    <script src="/js/pjax-transition.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/pjax/pjax.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -387,6 +388,53 @@
             })
         })
     </script>
+    
+    
+        <script>
+            /* MathJax 的按需加载：
+               首屏由下面 loadMath 的 script 标签引入；PJAX 切换页面时只替换
+               #pjax-container 里的内容，CDN 脚本不会跟着重新执行，
+               所以在 pjax:complete 时按新正文判断是「重新排版」还是「动态引入」，
+               否则从别的页面切到含公式的文章会一直显示 $…$ 原文 */
+            window.themeMath = (function () {
+                var CDN = 'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+                var MATH_RE = /\$\$[\s\S]+?\$\$|\$[^\s$][\s\S]*?[^\s$]\$|\\\([\s\S]+?\\\)|\\\[[\s\S]+?\\\]/;
+
+                function config() {
+                    return {
+                        tex: {
+                            inlineMath: [['$', '$'], ["\\(", "\\)"]],
+                            displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+                            processEscapes: true
+                        },
+                        options: {
+                            skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'] // 忽略的代码块
+                        }
+                    };
+                }
+
+                function typeset() {
+                    var container = document.getElementById('pjax-container') || document.body;
+                    if (!MATH_RE.test(container.textContent || '')) return;
+                    if (container.querySelector('[data-mathjax="off"]')) return; // front-matter 里关掉了
+                    if (window.MathJax && window.MathJax.typesetPromise) {
+                        window.MathJax.typesetPromise().catch(function (err) { console.warn(err); });
+                        return;
+                    }
+                    if (window.__mathjaxLoading) return;
+                    window.__mathjaxLoading = true;
+                    window.MathJax = config();
+                    var script = document.createElement('script');
+                    script.src = CDN;
+                    script.async = true;
+                    script.id = 'MathJax-script';
+                    document.head.appendChild(script);
+                }
+
+                return { config: config, typeset: typeset };
+            })();
+            document.addEventListener('pjax:complete', function () { window.themeMath.typeset(); });
+        </script>
     
     
 </body>

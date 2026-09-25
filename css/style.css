@@ -1158,6 +1158,60 @@ footer {
   overflow-y: hidden;
 }
 
+/* PJAX 页面切换过渡（source/js/pjax-transition.js）
+   #pjax-container（正文）与 #pjax-header（顶栏）是 pjax 的替换目标：
+   切换时先变淡、轻微上移，新内容再淡入并回落，避免整块生硬地闪替。
+   侧边栏（头像、播放器、站点信息等）不在替换范围内，保持不动 */
+#pjax-container,
+#pjax-header {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+/* 离开：变淡并轻微上移，作为「已响应点击」的即时反馈。
+   它是一个静止状态，整个加载期间保持；
+   导航完成（或出错）时由脚本移除，不会残留 */
+#pjax-container.pjax-leaving,
+#pjax-header.pjax-leaving {
+  opacity: 0.35;
+  transform: translateY(-3px);
+}
+
+/* 进入：用 keyframes，而不是「先置为透明再移除类」的过渡写法。
+   过渡写法依赖下一帧的回调，页面被浏览器节流（后台标签、不可见）时
+   回调不会执行，类会一直挂着、正文就停在 opacity:0，看起来像整页空白。
+   keyframes 里元素自身的样式始终是常态，动画只是叠加在上面的临时效果，
+   即使动画没能播放也不会把内容卡住 */
+#pjax-container.pjax-entering,
+#pjax-header.pjax-entering {
+  animation: pjax-enter 0.24s ease;
+}
+
+@keyframes pjax-enter {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+/* 系统开启「减少动态效果」时不做过渡（js 里也会跳过标记类的切换） */
+@media (prefers-reduced-motion: reduce) {
+  #pjax-container,
+  #pjax-header {
+    transition: none;
+  }
+  #pjax-container.pjax-leaving,
+  #pjax-header.pjax-leaving {
+    opacity: 1;
+    transform: none;
+  }
+  #pjax-container.pjax-entering,
+  #pjax-header.pjax-entering {
+    animation: none;
+  }
+}
 /* 顶栏标签数量/名称现在由主题 _config.yml 的 menu.items 决定，
    标签变多时容器会先收缩、标签被挤出。提前取消 nav 的 360px 左偏移，
    并允许 .button-bar 横向滑动（见 _main.scss），标签不再被裁掉 */
