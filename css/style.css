@@ -1307,12 +1307,20 @@ footer {
     transform: translateX(0);
   }
   /* 抽屉里是纵向滚动的列表，头像与播放器不再吸附，负外边距也一并取消 */
-  .avatar-widget,
-  .music-widget {
-    position: static;
-  }
   .avatar-widget {
+    position: static;
     margin-top: 0;
+  }
+  /* 播放器只能取消吸附，不能变成 static：
+     .music-widget::before 是 absolute 定位的装饰渐变层，一旦挂件不再定位，
+     它的包含块就会落到最近的定位祖先（移动端是 fixed 的 #sidebar）上，
+     这层半透明 blob 于是铺满整个抽屉、盖住头像和其它卡片。
+     relative 同样可以取消 sticky，且包含块仍在挂件自身。
+     top 必须一并清零：基线的 top: 140px 是吸顶距离，换成 relative 后
+     会变成向下 140px 的相对偏移，把挂件压到后面的标签挂件上 */
+  .music-widget {
+    position: relative;
+    top: auto;
   }
   .avatar-bg {
     margin-top: 0;

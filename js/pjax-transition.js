@@ -15,14 +15,19 @@
  *
  * #pjax-container 与 #pjax-header 是 pjax 的替换目标，元素本身不会被重建，
  * 所以标记类挂在它们上面即可跨越替换生效。
- * #sidebar 不在替换范围内、内容不变，但同样挂上标记类，
- * 让它与正文、顶栏同向淡入（移动端由 CSS 排除，抽屉有自己的位移动画）。
+ * #sidebar 不在替换范围内、内容不变，桌面端同样挂上标记类，
+ * 让它与正文、顶栏同向淡入；移动端的侧栏是抽屉（靠 translateX 开合），
+ * 过渡类会和抽屉的位移互相干扰，所以窄屏直接不把它算作目标。
  *
  * 系统开启「减少动态效果」时整段过渡跳过（CSS 里也做了同样的兜底）。
  */
 
 (function () {
-    var SELECTOR = '#pjax-container, #pjax-header, #sidebar';
+    var SELECTOR = '#pjax-container, #pjax-header';
+    // 侧栏（仅桌面端参与，见上）：断点与 _responsive.scss 的抽屉断点、
+    // _transition.scss 里侧栏过渡的 769px 保持一致
+    var SIDEBAR = '#sidebar';
+    var MOBILE_QUERY = '(max-width: 768px)';
     var LEAVING = 'pjax-leaving';
     var ENTERING = 'pjax-entering';
 
@@ -30,8 +35,16 @@
         return !!(window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches);
     }
 
+    function isMobile() {
+        return !!(window.matchMedia && window.matchMedia(MOBILE_QUERY).matches);
+    }
+
     function targets() {
-        return Array.prototype.slice.call(document.querySelectorAll(SELECTOR));
+        var els = Array.prototype.slice.call(document.querySelectorAll(SELECTOR));
+        if (!isMobile()) {
+            els = els.concat(Array.prototype.slice.call(document.querySelectorAll(SIDEBAR)));
+        }
+        return els;
     }
 
     function clear(el) {
