@@ -138,6 +138,32 @@ aside {
   padding-bottom: 20px;
 }
 
+/* 桌面端：播放器及其下方的信息 / 分类 / 标签挂件作为一整体吸顶悬浮
+   （layout.ejs 里的 .sidebar-float 包裹层）。
+   组内按 DOM 顺序排列，下面的卡片不再从播放器背后绕过、也就不会被盖住。
+   组比视口高时在组内滚动，保证最下面的卡片依然够得着；
+   顶栏（约 95px）与吸顶头像（-5px 起、120px 高）都在 140px 之上，不会重叠。
+   移动端侧栏是抽屉（fixed + 内部滚动），这里不做处理 */
+@media screen and (min-width: 769px) {
+  .sidebar-float {
+    position: sticky;
+    top: 140px;
+    z-index: 3;
+    max-height: calc(100vh - 160px);
+    overflow-y: auto;
+    /* 必须留出内边距：overflow-y: auto 会把 overflow-x 也变成 auto，
+       而卡片带 3px 3px 10px 的外投影，若卡片边缘与容器边界重合，
+       投影就会被裁掉一道硬边（组内卡片与组外卡片观感不一致）。
+       负外边距抵消内边距，侧栏占位宽度与卡片宽度都不变 */
+    padding: 0 16px 16px;
+    margin: 0 -16px -16px;
+    /* 内滚动条会破坏 Aero 观感，与顶栏一致隐藏（滚轮 / 触摸仍可滚动） */
+    scrollbar-width: none;
+  }
+  .sidebar-float::-webkit-scrollbar {
+    display: none;
+  }
+}
 .mobile-menu-btn, .sidebar-mask {
   display: none;
 }
@@ -603,12 +629,12 @@ nav {
   text-align: center;
 }
 
-/* 播放器与顶栏一样浮在最上层（同一个 z-index）。
-   侧栏其余卡片带 backdrop-filter，各自会形成层叠上下文（等价于 z-index:0），
-   不写 z-index 时 DOM 靠后的卡片在滚动经过时会盖住这个吸顶的播放器 */
+/* 播放器不再自己吸顶：它与下方的信息/分类卡片由 .sidebar-float 一起承载并吸顶
+   （见 _main.scss），组内按 DOM 顺序排列，不会再被后面的卡片绕过或盖住。
+   但必须保持定位：::before 是 absolute 的装饰渐变层，static 会让它的包含块
+   落到最近的定位祖先上，这层半透明 blob 就会铺满整列 */
 .music-widget {
-  position: sticky;
-  top: 140px;
+  position: relative;
   z-index: 3;
   background: var(--white-main);
   box-sizing: border-box;
@@ -875,6 +901,9 @@ nav {
   text-align: center;
   color: var(--white-main);
   background: var(--primary-color);
+  /* text-shadow 会从 .taxonomy-link 继承下来，而那层是给浅色底上的深色文字
+     用的白色投影；这里是白字配蓝色底，白影只会让数字重影、发虚，直接去掉 */
+  text-shadow: none;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
 }
 
@@ -1311,17 +1340,8 @@ footer {
     position: static;
     margin-top: 0;
   }
-  /* 播放器只能取消吸附，不能变成 static：
-     .music-widget::before 是 absolute 定位的装饰渐变层，一旦挂件不再定位，
-     它的包含块就会落到最近的定位祖先（移动端是 fixed 的 #sidebar）上，
-     这层半透明 blob 于是铺满整个抽屉、盖住头像和其它卡片。
-     relative 同样可以取消 sticky，且包含块仍在挂件自身。
-     top 必须一并清零：基线的 top: 140px 是吸顶距离，换成 relative 后
-     会变成向下 140px 的相对偏移，把挂件压到后面的标签挂件上 */
-  .music-widget {
-    position: relative;
-    top: auto;
-  }
+  /* 播放器已不再吸顶（基础规则就是 relative），抽屉里按正常流排列即可。
+     注意别改成 static：.music-widget::before 的包含块会落到抽屉上 */
   .avatar-bg {
     margin-top: 0;
     margin-left: 0;
