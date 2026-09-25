@@ -14,14 +14,15 @@
  * 动画即使没播放，元素自身仍是常态样式，不会把内容卡住。
  *
  * #pjax-container 与 #pjax-header 是 pjax 的替换目标，元素本身不会被重建，
- * 所以标记类挂在它们上面即可跨越替换生效；侧边栏（头像、播放器、站点信息等）
- * 在替换范围之外，切换页面时保持不动、不会闪烁。
+ * 所以标记类挂在它们上面即可跨越替换生效。
+ * #sidebar 不在替换范围内、内容不变，但同样挂上标记类，
+ * 让它与正文、顶栏同向淡入（移动端由 CSS 排除，抽屉有自己的位移动画）。
  *
  * 系统开启「减少动态效果」时整段过渡跳过（CSS 里也做了同样的兜底）。
  */
 
 (function () {
-    var SELECTOR = '#pjax-container, #pjax-header';
+    var SELECTOR = '#pjax-container, #pjax-header, #sidebar';
     var LEAVING = 'pjax-leaving';
     var ENTERING = 'pjax-entering';
 

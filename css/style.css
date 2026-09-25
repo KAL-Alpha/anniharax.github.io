@@ -1161,7 +1161,8 @@ footer {
 /* PJAX 页面切换过渡（source/js/pjax-transition.js）
    #pjax-container（正文）与 #pjax-header（顶栏）是 pjax 的替换目标：
    切换时先变淡、轻微上移，新内容再淡入并回落，避免整块生硬地闪替。
-   侧边栏（头像、播放器、站点信息等）不在替换范围内，保持不动 */
+   侧边栏（头像、播放器、站点信息等）不在替换范围内、内容不会变，
+   但同样套用这组过渡，让它与正文、顶栏同向出现 */
 #pjax-container,
 #pjax-header {
   transition: opacity 0.22s ease, transform 0.22s ease;
@@ -1196,19 +1197,37 @@ footer {
     transform: none;
   }
 }
+/* 侧边栏沿用同一组过渡，方向与正文、顶栏一致（先上移变淡，再从下方淡入）。
+   仅限桌面端：移动端的侧栏是抽屉，靠 translateX 开合，
+   这里的 transform 会盖掉抽屉的位移、让关闭的抽屉也显出来 */
+@media screen and (min-width: 769px) {
+  #sidebar {
+    transition: opacity 0.22s ease, transform 0.22s ease;
+  }
+  #sidebar.pjax-leaving {
+    opacity: 0.35;
+    transform: translateY(-3px);
+  }
+  #sidebar.pjax-entering {
+    animation: pjax-enter 0.24s ease;
+  }
+}
 /* 系统开启「减少动态效果」时不做过渡（js 里也会跳过标记类的切换） */
 @media (prefers-reduced-motion: reduce) {
   #pjax-container,
-  #pjax-header {
+  #pjax-header,
+  #sidebar {
     transition: none;
   }
   #pjax-container.pjax-leaving,
-  #pjax-header.pjax-leaving {
+  #pjax-header.pjax-leaving,
+  #sidebar.pjax-leaving {
     opacity: 1;
     transform: none;
   }
   #pjax-container.pjax-entering,
-  #pjax-header.pjax-entering {
+  #pjax-header.pjax-entering,
+  #sidebar.pjax-entering {
     animation: none;
   }
 }
