@@ -6,9 +6,26 @@
     <description>让我们期待明天会更好。</description>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, anniharax</copyright>
-    <lastBuildDate>Wed, 26 Aug 2026 12:38:28 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 26 Sep 2026 11:27:52 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <atom:link href="https://www.anniharax.com/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>我们曾被承诺过的未来——一个Frutiger Aero风格的博客主题</title>
+      <link>https://www.anniharax.com/posts/2e3c3de0-b99d-11f1-b424-01021b5512ba/</link>
+      <description>
+        <![CDATA[<p>我发现了一个Frutiger Aero的博客主题，效果意外不错。</p>
+<p>这是来自于GitHub的开源项目，基于MIT协议，<a href="https://github.com/5h1nnN/hexo-theme-aero">hexo-theme-aero</a></p>
+<p>提供了一个较为美观的Aero风格博客界面，但是美中不足的就是缺乏自定义功能，介意的可以自行Vibe。</p>]]>
+      </description>
+      <author>anniharax</author>
+      <category domain="https://www.anniharax.com/categories/%E9%A1%B9%E7%9B%AE%E5%88%86%E4%BA%AB/">项目分享</category>
+      <category domain="https://www.anniharax.com/tags/%E5%8D%9A%E5%AE%A2/">博客</category>
+      <category domain="https://www.anniharax.com/tags/Hexo/">Hexo</category>
+      <pubDate>Sat, 26 Sep 2026 11:26:56 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<p>我发现了一个Frutiger Aero的博客主题，效果意外不错。</p><p>这是来自于GitHub的开源项目，基于MIT协议，<a href="https://github.com/5h1nnN/hexo-theme-aero">hexo-theme-aero</a></p><p>提供了一个较为美观的Aero风格博客界面，但是美中不足的就是缺乏自定义功能，介意的可以自行Vibe。</p><span id="more"></span><h2 id="附注"><a href="#附注" class="headerlink" title="附注"></a>附注</h2><p>Frutiger Aero是一种流行于2000年代至2010年代的一种设计风格，其以自然和科技相融合为特色，常使用色彩明亮鲜艳、富有光泽、透明或半透明状、拟物化和与自然相关的事物元素，也是对Y2K风格的一种继承接替。</p><p>单纯告诉你Frutiger Aero你肯定不会想到什么，但是当我告诉你，Windows7的Aero主题就是基于Frutiger Aero风格而设计，那么你肯定就会马上联想到特征了——</p><p>拟物化、毛玻璃、鲜艳的自然色调……</p><p>颇有一种置身于未来乌托邦的感受。尤其地，Windows7流行的年代是公认的经济上行期——没有疫情，没有大学高中化，没有如今的男女对立格局，没有那些令人成瘾的互联网推荐算法……</p>]]>
+      </content:encoded>
+    </item>
     <item>
       <title>Sawhay发布信息</title>
       <link>https://www.anniharax.com/posts/4278db50-a148-11f1-b484-034a1abcdfdd/</link>
