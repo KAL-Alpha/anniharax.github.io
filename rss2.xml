@@ -6,9 +6,24 @@
     <description>让我们期待明天会更好。</description>
     <language>zh-CN</language>
     <copyright>All rights reserved 2026, anniharax</copyright>
-    <lastBuildDate>Sat, 26 Sep 2026 11:27:52 GMT</lastBuildDate>
+    <lastBuildDate>Sat, 07 Nov 2026 18:25:50 GMT</lastBuildDate>
     <generator>Hexo</generator>
     <atom:link href="https://www.anniharax.com/rss2.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Xagapro刷类原生日用体验</title>
+      <link>https://www.anniharax.com/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/</link>
+      <description>这是一篇有关于使用类原生作为主力的Blog,旨在分享类原生安卓的日用体验</description>
+      <author>anniharax</author>
+      <category domain="https://www.anniharax.com/categories/%E6%8A%80%E6%9C%AF%E5%88%86%E4%BA%AB/">技术分享</category>
+      <category domain="https://www.anniharax.com/tags/%E5%AE%89%E5%8D%93/">安卓</category>
+      <category domain="https://www.anniharax.com/tags/%E7%B1%BB%E5%8E%9F%E7%94%9F/">类原生</category>
+      <category domain="https://www.anniharax.com/tags/%E6%89%8B%E6%9C%BA/">手机</category>
+      <category domain="https://www.anniharax.com/tags/%E5%88%B7%E6%9C%BA/">刷机</category>
+      <pubDate>Sat, 07 Nov 2026 18:25:38 GMT</pubDate>
+      <content:encoded>
+        <![CDATA[<blockquote><p>InfinityX是笔者目前日用的类原生ROM，相对于LineageOS来说，IX的可自定义程度非常高。</p></blockquote><h2 id="下载-安装"><a href="#下载-安装" class="headerlink" title="下载&amp;安装"></a>下载&amp;安装</h2><p>笔者刷入IX的手机是xagapro（红米Note 11 T Pro+），很遗憾，官网并没有这一款机型的刷机包。本来打算弃坑去刷LineageOS或者是PixelOS，偶然间发现了一个神奇的频道——</p><p><a href="https://t.me/s/xagaaospupdate">XagaOSHub</a></p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic1.png" alt="XagaOSHub"></p><p>下载链接是谷歌云盘，同样需要魔法。</p><p>解压缩之后子目录有自动脚本，选择适配自己的电脑系统的脚本运行就行了，而不是说要先刷boot和vendor，再使用adb sideload。运行脚本之前，记得先把手机重启到fastboot。</p><h2 id="体验"><a href="#体验" class="headerlink" title="体验"></a>体验</h2><p>刚刷入的时候掉电会有点快，这是因有狗东西<!----><em><del>在贪污腐败</del></em> 在后台偷吃你的电量。</p><p>所以实际上，“类原生要搭配Root来用”这句话大概是没有错的。</p><p>顺便说个小插曲，因为我的这台设备是通过BROM深刷lk解锁的，而不是绑定解锁，所以，当我在执行刷机脚本的时候，那个脚本把我的lk分区又刷回去了，成功让我的设备变成了BL锁定状态——第一屏那个代表已经解锁bootloader的“锁已解开”标志消失了、fastboot拒绝写入。但是最为惊奇的是，这台手机还能够正常进入InfinityX，并成功激活、进入桌面。</p><p>这个ROM可以离线激活，不需要各位读者准备软路由。</p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic2.png" alt="设置界面"></p><h3 id="获取Root"><a href="#获取Root" class="headerlink" title="获取Root"></a>获取Root</h3><p>既然这样了，那肯定不能刷KSU了——至少在笔者尝试的时候，KSU是无法安装的——极其快捷的“直接安装”选项是找不到的，修补镜像的安装方式大抵也是用不了的，因为我对boot和vendor都进行修补并刷入、重启后，在KSU管理器的状态始终是未安装。</p><p>那就Magisk吧，懒得了解别的什么特性，直接装原版。我们直接修补boot，然后丝滑刷入——在不使用fastboot方案后，我选择用联发科的PreLoader模式深刷刷入——PreLoader不需要授权码，也没有文件校验，刚好可以用来刷入我修补后的boot.img。</p><h3 id="耗电"><a href="#耗电" class="headerlink" title="耗电"></a>耗电</h3><p>既然是优化耗电，Scene和冰箱必不可少。</p><p>Scene是一个经典的调度优化软件，对于类原生的羸弱的调度策略来说，要压制国产软件，Scene算是一个必需品。冰箱则可以充当一个杀后台的角色——对于某些流氓应用可以安卓的墓碑机制的情况，root下的冰箱可以起到一个“兜底”的作用。</p><p>实测在刷b站的情况下，20分钟只用了1%的电，平均功耗只有1.78W。</p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic3.png" alt="耗电数据"></p><p>更何况，类原生的系统的小而美是很容易就让Ta走GMS来推送消息的，这对于省电来说，无疑是一个好消息。</p><h3 id="自定义"><a href="#自定义" class="headerlink" title="自定义"></a>自定义</h3><p>InfinityX这个ROM的可自定义程度非常高，<del>OneUI：还有我的事？</del></p><p>虽然说，肯定没法像OneUI那样，连动画都给你一个入口，可以自由编辑自己喜欢的风格，但是，IX的可自定义程度依然顶级——无需安装任何APP，便可以在设置里面打开Infinity Suite自定义很多东西，像是壁纸取色的颜色和逻辑、壁纸和主题，还有熄屏显示（Always On Display，AOD）。</p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic4.png" alt="Infinity套件"></p><h3 id="AI体验"><a href="#AI体验" class="headerlink" title="AI体验"></a>AI体验</h3><p>相信读者都了解过Apple Intelligence这个东西。</p><p>类原生最让人羡慕的一个功能还包括谷歌套件的完备和系统的纯净、无深度魔改，而这两件事，也让一个</p><p>前往Play Store安装完Gemini之后，在默认应用里面就可以设置默认语音助理，剩下的配置手势启动的部分也非常方便——依旧是Infinity套件里面，“按键”和“导航”设置里面，就能够启用电源键唤醒和手势唤醒了。</p><p>Gemini在日常体验中实际上是比某问要好很多——至少是在我厚着脸皮去蹭了别人的国行一用之后，其实不怎么能理解为什么苹果会选择某问，感觉豆包的智商都要比某问高一点。</p><h2 id="Root隐藏-美化"><a href="#Root隐藏-美化" class="headerlink" title="Root隐藏&amp;美化"></a>Root隐藏&amp;美化</h2><p>其实最新版的Magisk的排除列表似乎做的不错，我在不使用Shamiko的情况都能过各大检测软件——只开软件自带的排除列表，甚至修改Magisk包名都没做——因为设置里面没有。</p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic5.png" alt="~~也是轻松过Luna了~~"></p><p>其实美化的话，我基本上只用了自带的，甚至没去装Iconify，但是效果依旧不错。</p><p><img src="/posts/a17e8310-dad8-11f1-9a14-e9ce37e8604f/pic6.png" alt="大肥鱼好美～"></p><hr><p><del>下面没了</del>，当然不是太监了</p>]]>
+      </content:encoded>
+    </item>
     <item>
       <title>我们曾被承诺过的未来——一个Frutiger Aero风格的博客主题</title>
       <link>https://www.anniharax.com/posts/2e3c3de0-b99d-11f1-b424-01021b5512ba/</link>
